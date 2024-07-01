@@ -39,21 +39,21 @@ void *move_tower_rocket(void *arg) {
 
                 switch (direction) {
                     case 0:
-                        rocket->x--; // Move left
+                        rocket->x--; 
                         break;
                     case 1:
-                        rocket->y--; // Move up
+                        rocket->y--;
                         rocket->x -= 2;
                         break;
                     case 2:
-                        rocket->y--; // Move up
+                        rocket->y--;
                         break;
                     case 3:
-                        rocket->y--; // Move up
+                        rocket->y--;
                         rocket->x += 2;
                         break;
                     case 4:
-                        rocket->x++; // Move right
+                        rocket->x++;
                         break;
                     default:
                         break;

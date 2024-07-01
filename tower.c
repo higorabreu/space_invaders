@@ -15,7 +15,6 @@ void move_tower(GameState *game, Tower *tower, int direction) {
     pthread_mutex_unlock(&game->mutex);
 }
 
-
 void reload_tower(GameState *game) {
     pthread_mutex_lock(&game->mutex);
     game->rockets_available = game->num_rockets;

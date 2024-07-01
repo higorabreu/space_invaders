@@ -82,7 +82,12 @@ void *update_interface(void *arg) {
         pthread_mutex_unlock(&game->mutex);
 
         refresh();
+
+        check_game_over(game);
+
+        usleep(150000);
     }
 
+    endwin();
     return NULL;
 }
