@@ -14,7 +14,6 @@ void *update_interface(void *arg) {
 
         pthread_mutex_lock(&game->mutex);
 
-        // Draw ships
         for (int i = 0; i < game->num_ships; i++) {
             if (game->ships[i].active) {
                 mvprintw(game->ships[i].y, game->ships[i].x, " /+\\ ");
@@ -23,19 +22,59 @@ void *update_interface(void *arg) {
             }
         }
 
-        // Draw rockets
         for (int i = 0; i < game->num_rockets; i++) {
             if (game->rockets[i].active) {
                 mvprintw(game->rockets[i].y, game->rockets[i].x, "|");
             }
         }
 
-        // Draw the tower
-        mvprintw(tower->y, tower->x, "  ^  ");
-        mvprintw(tower->y + 1, tower->x, " /|\\ ");
-        mvprintw(tower->y + 2, tower->x, "|-o-|");
+        for (int i = 0; i < game->num_rockets; i++) {
+            Rocket *rocket = &game->rockets[i];
 
-        // Game information
+            if (rocket->active) {
+                int x = rocket->x;
+                int y = rocket->y;
+                int direction = rocket->direction;
+
+                if (direction == 0 || direction == 4) {
+                    mvprintw(y, x, "__");
+                } else if (direction == 1) {
+                    mvprintw(y, x, "\\");
+                } else if (direction == 2) {
+                    mvprintw(y, x, "|");
+                } else if (direction == 3) {
+                    mvprintw(y, x, "/");
+                }
+            }
+        }
+
+        int tower_x = tower->x;
+        int tower_y = tower->y;
+        switch (tower->direction) {
+            case 0:
+                mvprintw(tower_y - 1, tower_x - 2, "__");
+                break;
+            case 1:
+                mvprintw(tower_y - 1, tower_x - 1, "\\");
+                break;
+            case 2:
+                mvprintw(tower_y - 1, tower_x - 1, " | ");
+                break;
+            case 3:
+                mvprintw(tower_y - 1, tower_x + 1, "/");
+                break;
+            case 4:
+                mvprintw(tower_y - 1, tower_x + 1, "__");
+                break;
+            default:
+                mvprintw(tower_y - 1, tower_x, " | ");
+                break;
+        }
+
+        mvprintw(tower_y, tower_x - 2, "  ^  ");
+        mvprintw(tower_y + 1, tower_x -2, " /|\\ ");
+        mvprintw(tower_y + 2, tower_x -2, "|-o-|");
+
         mvprintw(0, 0, "Rockets: %d/%d", game->rockets_available, game->num_rockets);
         mvprintw(1, 0, "Ships Destroyed: %d", game->ships_destroyed);
         mvprintw(2, 0, "Ships Hit: %d", game->ships_hit);

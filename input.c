@@ -3,6 +3,7 @@
 #include "game.h"
 #include "tower.h"
 #include "rocket.h"
+#include <unistd.h>
 
 void *capture_input(void *arg) {
     input_args *args = (input_args *)arg;
@@ -12,6 +13,16 @@ void *capture_input(void *arg) {
     while (1) {
         int ch = getch();
         switch (ch) {
+            case 'a':
+                if (tower->direction > 0) {
+                    tower->direction--;
+                }
+                break;
+            case 'd':
+                if (tower->direction < 4) {
+                    tower->direction++;
+                }
+                break;
             case KEY_LEFT:
                 move_tower(game, tower, KEY_LEFT);
                 break;
@@ -25,6 +36,7 @@ void *capture_input(void *arg) {
                 reload_tower(game);
                 break;
         }
+        usleep(100000);
     }
 
     return NULL;

@@ -35,8 +35,31 @@ void *move_tower_rocket(void *arg) {
 
             pthread_mutex_lock(&game->mutex);
             if (rocket->active) {
-                rocket->y--;
-                if (rocket->y < 0) {
+                int direction = rocket->direction;
+
+                switch (direction) {
+                    case 0:
+                        rocket->x--; // Move left
+                        break;
+                    case 1:
+                        rocket->y--; // Move up
+                        rocket->x -= 2;
+                        break;
+                    case 2:
+                        rocket->y--; // Move up
+                        break;
+                    case 3:
+                        rocket->y--; // Move up
+                        rocket->x += 2;
+                        break;
+                    case 4:
+                        rocket->x++; // Move right
+                        break;
+                    default:
+                        break;
+                }
+
+                if (rocket->y < 0 || rocket->x < 0 || rocket->x >= screen_width) {
                     rocket->active = 0;
                 }
             }
@@ -48,8 +71,6 @@ void *move_tower_rocket(void *arg) {
 
     return NULL;
 }
-
-
 
 void *check_collision(void *arg) {
   GameState *game = (GameState *)arg;

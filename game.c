@@ -26,7 +26,7 @@ void initialize_game(GameState *game, Tower *tower) {
         do {
             x = rand() % (screen_width - 6);
             y = 0;
-        } while (!is_position_free(game, x, y));
+        } while (!verify_position(game, x, y));
 
         game->ships[i].x = x;
         game->ships[i].y = y;
@@ -65,20 +65,20 @@ void check_game_over(GameState *game) {
         clear();
         mvprintw(screen_height / 2, screen_width / 2 - 5, "You win!");
         refresh();
-        usleep(1500000);
+        usleep(2000000);
         endwin();
         exit(0);
     } else if (ships_hit >= total_ships / 2) {
         clear();
         mvprintw(screen_height / 2, screen_width / 2 - 5, "You Lose!");
         refresh();
-        usleep(1500000);
+        usleep(2000000);
         endwin();
         exit(0);
     }
 }
 
-int is_position_free(GameState *game, int x, int y) {
+int verify_position(GameState *game, int x, int y) {
     for (int i = 0; i < game->num_ships; i++) {
         if (game->ships[i].active && game->ships[i].x >= x && game->ships[i].x <= x + 6) {
             return 0;

@@ -39,6 +39,6 @@ extern int screen_height, screen_width;
 void initialize_game(GameState *game, Tower *tower);
 void check_game_over(GameState *game);
 int all_ships_destroyed(GameState *game);
-int is_position_free(GameState *game, int x, int y);
+int verify_position(GameState *game, int x, int y);
 
 #endif
