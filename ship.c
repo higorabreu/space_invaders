@@ -10,9 +10,10 @@ void *move_ships(void *arg) {
         for (int i = 0; i < game->num_ships; i++) {
             if (game->ships[i].active) {
                 game->ships[i].y++;
-
+                
+                // nave atingiu a parte inferior da tela
                 if (game->ships[i].y >= screen_height - 1) {
-                    game->ships[i].active = 0;
+                    game->ships[i].active = 0; // desativa a nave
                     game->ships_hit++;
                 }
             }
@@ -21,6 +22,7 @@ void *move_ships(void *arg) {
         pthread_mutex_unlock(&game->mutex);
 
         check_game_over(game);
+
         usleep(SHIP_SPEED);
     }
 

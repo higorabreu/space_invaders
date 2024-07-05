@@ -10,11 +10,11 @@
 #include "rocket.h"
 #include "ship.h"
 
-
 int main() {
     srand(time(NULL));
-    GameState game;
+    GameState game; // armazena o estado do jogo
 
+    // inicializa a tela do ncurses
     initscr();
     cbreak();
     noecho();
@@ -58,17 +58,21 @@ int main() {
 
     pthread_t thread_ships, thread_interface, thread_input, thread_collision;
 
+
     input_args args = {&game, &tower};
+    // threads para movimentar as naves, atualizar a interface, capturar entrada e verificar colisões
     pthread_create(&thread_ships, NULL, move_ships, (void *)&game);
     pthread_create(&thread_interface, NULL, update_interface, (void *)&args);
     pthread_create(&thread_input, NULL, capture_input, (void *)&args);
     pthread_create(&thread_collision, NULL, check_collision, (void *)&game);
 
+    // espera todas as threads terminarem
     pthread_join(thread_ships, NULL);
     pthread_join(thread_interface, NULL);
     pthread_join(thread_input, NULL);
     pthread_join(thread_collision, NULL);
 
+    // destroi o mutex e libera a memória alocada
     pthread_mutex_destroy(&game.mutex);
     free(game.ships);
     free(game.rockets);

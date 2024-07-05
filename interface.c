@@ -9,11 +9,12 @@ void *update_interface(void *arg) {
     Tower *tower = args->tower;
 
     while (1) {
-        usleep(50000);
+        usleep(50000); 
         clear();
 
-        pthread_mutex_lock(&game->mutex);
+        pthread_mutex_lock(&game->mutex); // trava o mutex para acesso seguro ao estado do jogo
 
+        // naves
         for (int i = 0; i < game->num_ships; i++) {
             if (game->ships[i].active) {
                 mvprintw(game->ships[i].y, game->ships[i].x, " /+\\ ");
@@ -22,12 +23,7 @@ void *update_interface(void *arg) {
             }
         }
 
-        for (int i = 0; i < game->num_rockets; i++) {
-            if (game->rockets[i].active) {
-                mvprintw(game->rockets[i].y, game->rockets[i].x, "|");
-            }
-        }
-
+        // foguetes
         for (int i = 0; i < game->num_rockets; i++) {
             Rocket *rocket = &game->rockets[i];
 
@@ -48,6 +44,7 @@ void *update_interface(void *arg) {
             }
         }
 
+        // torre
         int tower_x = tower->x;
         int tower_y = tower->y;
         switch (tower->direction) {
@@ -71,19 +68,21 @@ void *update_interface(void *arg) {
                 break;
         }
 
+        // base da torre
         mvprintw(tower_y, tower_x - 2, "  ^  ");
-        mvprintw(tower_y + 1, tower_x -2, " /|\\ ");
-        mvprintw(tower_y + 2, tower_x -2, "|-o-|");
+        mvprintw(tower_y + 1, tower_x - 2, " /|\\ ");
+        mvprintw(tower_y + 2, tower_x - 2, "|-o-|");
 
+        // informações do jogo
         mvprintw(0, 0, "Rockets: %d/%d", game->rockets_available, game->num_rockets);
         mvprintw(1, 0, "Ships Destroyed: %d", game->ships_destroyed);
         mvprintw(2, 0, "Ships Hit: %d", game->ships_hit);
 
-        pthread_mutex_unlock(&game->mutex);
+        pthread_mutex_unlock(&game->mutex); // destrava o mutex após atualizar a tela
 
-        refresh();
+        refresh(); 
 
-        check_game_over(game);
+        check_game_over(game); // verifica se o jogo terminou
 
         usleep(150000);
     }

@@ -15,8 +15,9 @@ void move_tower(GameState *game, Tower *tower, int direction) {
     pthread_mutex_unlock(&game->mutex);
 }
 
+// recarregar os foguetes
 void reload_tower(GameState *game) {
     pthread_mutex_lock(&game->mutex);
-    game->rockets_available = game->num_rockets;
+    game->rockets_available = game->num_rockets; // restaura o num total de foguetes disponiveis
     pthread_mutex_unlock(&game->mutex);
 }
