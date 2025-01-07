@@ -1,28 +1,26 @@
 ### Space Defense Game
 
-Este é um jogo simples de defesa espacial desenvolvido em C para terminal. O jogador controla uma torre para defender contra naves inimigas usando foguetes.
+This is a simple space defense game developed in C for the terminal. The player controls a turret to defend against enemy ships using rockets.
 
-Alunos: Higor Abreu e Igor Zimmer
+### Features:
 
-### Funcionalidades:
+- **Tower Movement:** Use the 'a' and 'd' keys to move the turret left and right, respectively.
+- **Rocket Direction Movement:** Use the 'left' and 'right' keys to adjust the rocket direction before firing.
+- **Rocket Firing:** Press the spacebar to fire rockets in the current direction of the turret.
+- **Tower Reload:** Press 'r' to reload the available rockets.
+- **Game Interface:** Dynamically updates to show the number of rockets, destroyed ships, and hit ships.
 
-- **Movimento da Torre:** Use as teclas 'a' e 'd' para mover a torre para a esquerda e direita, respectivamente.
-- **Movimento da Direção do Foguete:** Use as teclas 'left' (esquerda) e 'right' (direita) para mover a direção do foguete antes de disparar.
-- **Disparo de Foguetes:** Pressione a tecla de espaço para disparar foguetes na direção atual da torre.
-- **Recarga da Torre:** Pressione 'r' para recarregar os foguetes disponíveis.
-- **Interface de Jogo:** Atualiza dinamicamente mostrando o número de foguetes, naves destruídas e atingidas.
+### Thread Usage:
 
-### Uso de Threads:
+During gameplay, the following threads are created to ensure a smooth experience:
 
-Durante a execução do jogo, as seguintes threads são criadas garantindo uma experiência de jogo fluida:
+- **thread_ships:** Controls the movement of enemy ships
+- **thread_interface:** Updates the game interface
+- **thread_input:** Captures player input
+- **thread_collision:** Checks for collisions
+- **rocket_thread:** Controls rocket movement
 
-- thread_ships: Movimento das Naves
-- thread_interface: Atualização da Interface
-- thread_input: Captura de Entrada
-- thread_collision: Verificação de Colisões
-- rocket_thread: Movimento dos Foguetes
-
-#### Compilação:
+#### Compilation:
    ```bash
    make
    ```
